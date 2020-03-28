@@ -1,0 +1,81 @@
+﻿@model int
+@{ 
+    Layout = "_Layout";
+}
+
+<div>
+    <div><input type="text" id="Name" placeholder="Kulübün adını giriniz" /></div>
+    <div><input type="number" id="Value" placeholder="Kulübün değerini giriniz" /></div>
+    <div id="Holder-Colors"></div>
+    <div><input type="button" value="Kaydet" onclick="Save();" /></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/color/getcolors",
+            data: [],
+            dataType: "json",
+            contentType: "application/json; charset=utf-8;",
+            success: function (result) {
+                console.log(result);
+                var html = "";
+                for (var i = 0; i < result.length; i++) {
+                    html += result[i].name + ": <input type=\"checkbox\" id=\"Color-" + result[i].id + "\" value=\"" + result[i].id + "\" />";
+                }
+
+                $("#Holder-Colors").html(html);
+            }
+        });
+
+        if (@Model != 0) {
+            $.ajax({
+                type: "GET",
+                url: "/club/getclub/@Model",
+                data: [],
+                dataType: "json",
+                contentType: "application/json; charset=utf-8;",
+                success: function (result) {
+                    console.log(result);
+                    $("#Name").val(result.name);
+                    $("#Value").val(result.value);
+
+                    for (var i = 0; i < result.clubColors.length; i++) {
+                        $("#Color-" + result.clubColors[i].colorId).prop("checked", true);
+                    }
+                }
+            });
+        }
+    });
+
+    function Save() {
+        var clubColors = [];
+        var colorCheckboxes = $("[id^=Color-]");
+
+        for (var i = 1; i <= colorCheckboxes.length; i++) {
+            if ($("#Color-" + i).is(':checked')) {
+                var value = $("#Color-" + i).val();
+                clubColors.push(value);
+            }
+        }
+        var id = @Model;
+        var name = $("#Name").val();
+        var value = $("#Value").val();
+
+        var data = { Name: name, Value: value, ClubColors: clubColors };
+        data = JSON.stringify(data);
+
+        $.ajax({
+            type: "POST",
+            url: "/club/manageclubaction",
+            data: data,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8;",
+            success: function (result) {
+                console.log(result);
+                alert("ok");
+            }
+        });
+    }
+</script>
