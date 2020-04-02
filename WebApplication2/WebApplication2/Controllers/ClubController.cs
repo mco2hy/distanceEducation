@@ -75,7 +75,10 @@ namespace WebApplication2.Controllers
                     });
                 }
 
-                return new JsonResult("?");
+                _dataContext.Clubs.Update(club);
+                _dataContext.SaveChanges();
+
+                return new JsonResult(club);
             }
             else
             {

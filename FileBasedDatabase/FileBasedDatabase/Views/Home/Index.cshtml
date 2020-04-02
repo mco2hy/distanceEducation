@@ -1,0 +1,43 @@
+﻿@model FileBasedDatabase.Data.Entities.BaseDatabase
+@{
+    Layout = "_Layout";
+}
+<div>
+    <a href="@Url.Action("Manage", "Home")">Yönet</a>
+</div>
+<div>
+    <div><strong>Kütüphane Adı:</strong><span>@Model.Name</span></div>
+    <div><strong>Kapasitesi:</strong><span>@Model.Capacity</span></div>
+    <div><strong>Adresi:</strong><span>@Model.Address</span></div>
+    <div>
+        <h3>Kitaplar(<a href="@Url.Action("ManageBook", "Home",new {id = Guid.Empty})">Kitap Ekle</a>)</h3>
+        <div>
+            @{
+                if (!Model.Books.Any())
+                {
+                    <div>Sistemde kayıtlı kitap bulunmamaktadır.</div>
+                }
+                foreach (var book in Model.Books)
+                {
+                    <div>@book.Name (<a href="@Url.Action("ManageBook", "Home", new {id = book.Id})">Düzenle</a>)</div>
+                }
+            }
+
+        </div>
+    </div>
+    <div>
+        <h3>Ziyaretçiler(<a href="@Url.Action("ManageVisitor", "Home", new {id = Guid.Empty})">Ziyaretçi Ekle</a>)</h3>
+        <div>
+            @{
+                if (!Model.Visitors.Any())
+                {
+                    <div>Sistemde kayıtlı kitap bulunmamaktadır.</div>
+                }
+                foreach (var visitor in Model.Visitors)
+                {
+                    <div>@visitor.Name</div><div>@visitor.Surname (<a href="@Url.Action("ManageVisitor", "Home", new {id = visitor.Id})">Düzenle</a>)</div>
+                }
+            }
+        </div>
+    </div>
+</div>

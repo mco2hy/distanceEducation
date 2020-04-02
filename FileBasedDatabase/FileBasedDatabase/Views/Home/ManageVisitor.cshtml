@@ -1,0 +1,45 @@
+﻿@model FileBasedDatabase.Data.Entities.BaseDatabase
+@{ 
+    Layout = "_Layout";
+    var visitor = Model.Visitors.SingleOrDefault(a => a.Id == ViewBag.Id);
+
+    string name = string.Empty;
+    string surname = string.Empty;
+    Guid id = Guid.Empty;
+
+    if (visitor != null) // güncelleme işlemi
+    {
+        name = visitor.Name;
+        surname = visitor.Surname;
+        id = visitor.Id;
+    }
+}
+
+<div>
+    <div><input type="text" value="@name" id="Name" placeholder="Ziyaretçi adı" /></div>
+    <div><input type="text" value="@surname" id="Surname" placeholder="Ziyaretçi soyadı" /></div>
+    <div><input type="hidden" value="@id" id="Id" /></div>
+    <div><input type="button" value="Kaydet" onclick="Save();" /></div>
+</div>
+
+<script>
+    function Save() {
+        var name = $("#Name").val();
+        var surname = $("#Surname").val();
+        var id = $("#Id").val();
+        var data = { Name: name, Surname: surname, Id: id };
+        data = JSON.stringify(data);
+
+        $.ajax({
+            type: "POST",
+            url: "/home/setvisitor",
+            data: data,
+            success: function (result) {
+                console.log(result);
+                window.location = "/";
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8;"
+        });
+    }
+</script>

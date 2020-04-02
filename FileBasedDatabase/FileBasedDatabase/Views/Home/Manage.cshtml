@@ -1,0 +1,46 @@
+﻿@{ 
+    Layout = "_Layout";
+}
+<div>
+    <div><input type="text" id="Name" placeholder="Kütüphanenin Adı" /></div>
+    <div><input type="number" id="Capacity" placeholder="Kütüphanenin Kapasitesi" /></div>
+    <div><input type="text" id="Address" placeholder="Kütüphanenin Adresi" /></div>
+    <div><input type="button" value="Kaydet" onclick="Save();" /></div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "/home/getbasedatabase",
+            data: [],
+            success: function (result) {
+                $("#Name").val(result.name);
+                $("#Address").val(result.address);
+                $("#Capacity").val(result.capacity);
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8;"
+        });
+    });
+    
+    function Save() {
+        var name = $("#Name").val();
+        var address = $("#Address").val();
+        var capacity = $("#Capacity").val();
+        var data = { Name: name, Address: address, Capacity: capacity };
+        data = JSON.stringify(data);
+
+        $.ajax({
+            type: "POST",
+            url: "/home/setLibraryProperties",
+            data: data,
+            success: function (result) {
+                console.log(result);
+                window.location = "/";
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8;"
+        });
+    }
+</script>
