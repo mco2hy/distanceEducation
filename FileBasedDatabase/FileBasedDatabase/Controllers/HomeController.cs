@@ -109,33 +109,25 @@ namespace FileBasedDatabase.Controllers
         [Route("/home/removebook/{id}")]
         public IActionResult RemoveBook(Guid id)
         {
-            ViewBag.Id = id;
-            return View(Helper.JsonHelper.GetDatabase());
-        }
-        public IActionResult DeleteBook([FromBody]Data.DTOs.BookDto book)
-        {
             var baseDatabase = Helper.JsonHelper.GetDatabase();
-            var bookEntity = baseDatabase.Books.SingleOrDefault(a => a.Id == book.Id);
+            var bookEntity = baseDatabase.Books.SingleOrDefault(a => a.Id == id);
 
             baseDatabase.Books.Remove(bookEntity);
             Helper.JsonHelper.SetDatabase(baseDatabase);
-            return new JsonResult(baseDatabase);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [Route("/home/removevisitor/{id}")]
         public IActionResult RemoveVisitor(Guid id)
         {
-            ViewBag.Id = id;
-            return View(Helper.JsonHelper.GetDatabase());
-        }
-        public IActionResult DeleteVisitor([FromBody]Data.DTOs.VisitorDto visitor)
-        {
             var baseDatabase = Helper.JsonHelper.GetDatabase();
-            var visitorEntity = baseDatabase.Visitors.SingleOrDefault(a => a.Id == visitor.Id);
+            var visitorEntity = baseDatabase.Visitors.SingleOrDefault(a => a.Id == id);
 
             baseDatabase.Visitors.Remove(visitorEntity);
             Helper.JsonHelper.SetDatabase(baseDatabase);
-            return new JsonResult(baseDatabase);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
