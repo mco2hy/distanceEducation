@@ -19,7 +19,7 @@
                 }
                 foreach (var book in Model.Books)
                 {
-                    <div>@book.Name (<a href="@Url.Action("ManageBook", "Home", new {id = book.Id})">Düzenle</a>)</div>
+                    <div>@book.Name (<a href="@Url.Action("ManageBook", "Home", new {id = book.Id})">Düzenle</a>) (<a href="@Url.Action("RemoveBook", "Home", new { id = book.Id })">Sil</a>)</div>
                 }
             }
 
@@ -35,7 +35,7 @@
                 }
                 foreach (var visitor in Model.Visitors)
                 {
-                    <div>@visitor.Name</div><div>@visitor.Surname (<a href="@Url.Action("ManageVisitor", "Home", new {id = visitor.Id})">Düzenle</a>)</div>
+                    <div>@visitor.Name @visitor.Surname (<a href="@Url.Action("ManageVisitor", "Home", new {id = visitor.Id})">Düzenle</a>) (<a href="@Url.Action("RemoveVisitor", "Home", new { id = visitor.Id })">Sil</a>)</div>
                 }
             }
         </div>

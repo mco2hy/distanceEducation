@@ -5,7 +5,7 @@
     <div><input type="text" id="Name" placeholder="Kütüphanenin Adı" /></div>
     <div><input type="number" id="Capacity" placeholder="Kütüphanenin Kapasitesi" /></div>
     <div><input type="text" id="Address" placeholder="Kütüphanenin Adresi" /></div>
-    <div><input type="button" value="Kaydet" onclick="Save();" /></div>
+    <div><input type="button" value="Kaydet" onclick="Sure();" /></div>
 </div>
 
 <script>
@@ -42,5 +42,12 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8;"
         });
+    }
+</script>
+<script>
+    function Sure() {
+        if (confirm('Bilgileri veritabanına kaydetmek istediğinizden emin misiniz?')) {
+            Save();
+        }
     }
 </script>

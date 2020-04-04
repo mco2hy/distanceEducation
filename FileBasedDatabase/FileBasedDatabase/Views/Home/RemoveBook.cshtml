@@ -3,23 +3,30 @@
     Layout = "_Layout";
     var book = Model.Books.SingleOrDefault(a => a.Id == ViewBag.Id);
 
-    string name = string.Empty;
-    Guid id = Guid.Empty;
 
-    if (book != null) // güncelleme işlemi
-    {
-        name = book.Name;
-        id = book.Id;
-    }
 }
 
+
 <div>
-    <div><input type="text" value="@name" id="Name" placeholder="Kitap adı" /></div>
-    <div><input type="hidden" value="@id" id="Id" /></div>
-    <div><input type="button" value="Kaydet" onclick="Sure();" /></div>
+
+    <div><input type="hidden" value="@book.Id" id="Id" /></div>
+    <div><input type="hidden" value="@book.Name" id="Name" /></div>
+
+
 </div>
 
 <script>
+    $(document).ready(function () {
+        if (confirm('Bilgileri veritabanından silmek istediğinizden emin misiniz?')) {
+            Save();
+        }
+    });
+</script>
+
+
+
+<script>
+
     function Save() {
         var name = $("#Name").val();
         var id = $("#Id").val();
@@ -28,7 +35,7 @@
 
         $.ajax({
             type: "POST",
-            url: "/home/setbook",
+            url: "/home/deletebook",
             data: data,
             success: function (result) {
                 console.log(result);
@@ -37,13 +44,5 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8;"
         });
-    }
-</script>
-
-<script>
-    function Sure() {
-        if (confirm('Bilgileri veritabanına kaydetmek istediğinizden emin misiniz?')) {
-            Save();
-        }
     }
 </script>

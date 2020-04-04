@@ -1,0 +1,48 @@
+﻿@model FileBasedDatabase.Data.Entities.BaseDatabase
+@{
+    Layout = "_Layout";
+    var visitor = Model.Visitors.SingleOrDefault(a => a.Id == ViewBag.Id);
+
+
+}
+
+
+<div>
+
+    <div><input type="hidden" value="@visitor.Id" id="Id" /></div>
+    <div><input type="hidden" value="@visitor.Name" id="Name" /></div>
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        if (confirm('Bilgileri veritabanından silmek istediğinizden emin misiniz?')) {
+            Save();
+        }
+    });
+</script>
+
+
+
+<script>
+
+    function Save() {
+        var name = $("#Name").val();
+        var id = $("#Id").val();
+        var data = { Name: name, Id: id };
+        data = JSON.stringify(data);
+
+        $.ajax({
+            type: "POST",
+            url: "/home/deletevisitor",
+            data: data,
+            success: function (result) {
+                console.log(result);
+                window.location = "/";
+            },
+            dataType: "json",
+            contentType: "application/json; charset=utf-8;"
+        });
+    }
+</script>

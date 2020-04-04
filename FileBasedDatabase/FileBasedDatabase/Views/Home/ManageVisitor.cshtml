@@ -19,7 +19,7 @@
     <div><input type="text" value="@name" id="Name" placeholder="Ziyaretçi adı" /></div>
     <div><input type="text" value="@surname" id="Surname" placeholder="Ziyaretçi soyadı" /></div>
     <div><input type="hidden" value="@id" id="Id" /></div>
-    <div><input type="button" value="Kaydet" onclick="Save();" /></div>
+    <div><input type="button" value="Kaydet" onclick="Sure();" /></div>
 </div>
 
 <script>
@@ -41,5 +41,13 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8;"
         });
+    }
+</script>,
+
+<script>
+    function Sure() {
+        if (confirm('Bilgileri veritabanına kaydetmek istediğinizden emin misiniz?')) {
+            Save();
+        }
     }
 </script>
